@@ -24,7 +24,7 @@
 		<td><%= item.name.toUpperCase() %></td>
 		<td><%= item.fname.toUpperCase() %></td>
 		<td><%= item.email %></td>
-		<td><a href="/user/delete/<%= item._id %>">Delete</a> &nbsp;<a href="/user/detail/<%= item._id %>">View</a></td>
+		<td><a href="/user/update/<%= item._id %>">Update</a> &nbsp;<a href="/user/delete/<%= item._id %>">Delete</a> &nbsp;<a href="/user/detail/<%= item._id %>">View</a></td>
 	</tr>
 	<% })	 %>
 <tr>

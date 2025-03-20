@@ -1,4 +1,20 @@
 const userModel = require('../models/User');
+
+//   below code to  show the new user form
+exports.login =  async (req, res) => {
+	try{
+		res.render('users/');
+		
+	}catch(err){
+		res.status(302).json({
+				status:'error',
+				message:'something went wrong..',
+				report:err
+				
+			});
+	}
+};
+//   below code to  save the new user data
 exports.createUser =  async (req,res) =>{
 		
 		try{
@@ -7,26 +23,18 @@ exports.createUser =  async (req,res) =>{
 			user.fname = req.body.fname;
 			user.email = req.body.email;
 			const data = await user.save();
-			res.status(200).json({
-				status:'success',
-				message:'user data submitted successfully.',
-				data:req.body
-			});
+			res.redirect('/user/');
 		}catch(err){ 
 			res.send("Error while saving data"); 
 		}
 	 
 };
-
+// below code is used to display the list of all users
 exports.getUsers = async (req, res) => {
 	
 	try{
 		const data = await userModel.find();
-		res.status(200).json({
-			status:'success',
-			message:'user data fetch successfully.',
-			data:data
-		});
+		res.render('users/list', {data});
 	}catch(err){
 		res.status(302).json({
 				status:'error',
@@ -37,17 +45,13 @@ exports.getUsers = async (req, res) => {
 	}
 	
 }; 
-
+ // bellow code is used to show the single user detail
 exports.getUserData = async (req, res) => {
 	
 	try{
 		const userId = req.params.id;
 		const data = await userModel.findById({_id: userId});
-		res.status(200).json({
-					status:'success',
-					message:'User data get successfully.!',
-					data:data
-				});
+		res.render('users/detail', data);
 	}catch(err){
 		res.status(302).json({
 				status:'error',
@@ -57,16 +61,12 @@ exports.getUserData = async (req, res) => {
 	}
 	
 };
-
+//   below code to delete user 
 exports.deleteUser = async  (req, res)=> {
 	try{
 		const userId = req.params.id;
 		const data = await userModel.deleteOne({_id:userId});
-		res.status(200).json({
-			status:'success',
-			message:'User data deleted successffully.',
-			data:{}
-		});
+		res.redirect('/user/');
 	}catch(err){
 		res.status(302).json({
 				status:'error',
@@ -78,10 +78,13 @@ exports.deleteUser = async  (req, res)=> {
 	
 };
 
-exports.login =  async (req, res) => {
+//   below code to show update form data 
+exports.updateUser = async (req, res) => {
 	try{
-		res.render('users/index');
+		const userId = req.params.id;
+		const user = await userModel.findById(userId);
 		
+	res.render('users/edit', user);	
 	}catch(err){
 		res.status(302).json({
 				status:'error',
@@ -90,5 +93,29 @@ exports.login =  async (req, res) => {
 				
 			});
 	}
+	
+};
+
+//   below code to update user data 
+exports.updateData = async (req, res) => {
+	
+	try{
+		const userId = req.body.id;
+		const data = {
+			name:req.body.name,
+			fname:req.body.fname,
+			email:req.body.email
+		};
+	await userModel.findByIdAndUpdate(userId, data);
+	res.redirect('/user');
+	}catch(err){
+		res.status(302).json({
+				status:'error',
+				message:'something went wrong..',
+				report:err
+				
+			});
+	}
+	
 };
 

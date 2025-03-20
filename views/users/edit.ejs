@@ -1,0 +1,34 @@
+<html>
+
+<meta>
+<title>node js view</title>
+</meta>
+
+<body>
+
+<table>
+<form method="post" action="/user/update">
+<tr>
+		
+		<td><input type="hidden" name="id" class="name" value="<%= _id %>" /></td>
+	</tr>
+	<tr>
+		<th><label>Name</label></th>
+		<td><input type="text" name="name" class="name" value="<%= name %>" /></td>
+	</tr>
+	<tr>
+		<th><label>Last Name</label></th>
+		<td><input type="text" name="fname" class="fname"value="<%= fname %>" /></td>
+	</tr>
+	<tr>
+		<th><label>Email</label></th>
+		<td><input type="text" name="email" class="name" value="<%= email %>" /></td>
+	</tr>
+	<tr>
+		
+		<td><input type="submit" name="submit" class="name" value="Submit" /></td>
+	</tr>
+</form>
+</table>
+</body>
+</html>
