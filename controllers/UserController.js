@@ -2,17 +2,16 @@ const userModel = require('../models/User');
 exports.createUser =  async (req,res) =>{
 		
 		try{
-			const user = new userModel();
-			user.name = 'duke';
-			user.fname = 'walker';
-			user.email = 'dukewalker123@gmail.com';
+			const user  = userModel();
+			user.name = req.body.name;
+			user.fname = req.body.fname;
+			user.email = req.body.email;
 			const data = await user.save();
 			res.status(200).json({
 				status:'success',
-				message:'User data inserted successfully.1',
-				data:data
+				message:'user data submitted successfully.',
+				data:req.body
 			});
-			
 		}catch(err){ 
 			res.send("Error while saving data"); 
 		}
@@ -77,4 +76,19 @@ exports.deleteUser = async  (req, res)=> {
 			});
 	}
 	
-}
+};
+
+exports.login =  async (req, res) => {
+	try{
+		res.render('index');
+		
+	}catch(err){
+		res.status(302).json({
+				status:'error',
+				message:'something went wrong..',
+				report:err
+				
+			});
+	}
+};
+
