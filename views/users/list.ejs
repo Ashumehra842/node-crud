@@ -1,0 +1,35 @@
+<html>
+
+<meta>
+<title>node js view</title>
+</meta>
+
+<body>
+
+<table border="1" padding="1">
+
+	<tr>
+		<th><label>S.No</label></th>
+		<th><label>Name</label></th>
+		<th><label>Last Name</label></th>
+		<th><label>Email</label></th>
+		<th><label>Action</label></th>
+		
+		
+	</tr>
+	<% data.forEach((item, index) => { %>
+	
+	<tr>
+		<td><%= index +1 %></td>
+		<td><%= item.name.toUpperCase() %></td>
+		<td><%= item.fname.toUpperCase() %></td>
+		<td><%= item.email %></td>
+		<td><a href="/user/delete/<%= item._id %>">Delete</a> &nbsp;<a href="/user/detail/<%= item._id %>">View</a></td>
+	</tr>
+	<% })	 %>
+<tr>
+<th><a href="/user/login/"><button>Create User</button></a></th>
+</tr>
+</table>
+</body>
+</html>
