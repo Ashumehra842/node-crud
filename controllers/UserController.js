@@ -80,7 +80,7 @@ exports.deleteUser = async  (req, res)=> {
 
 exports.login =  async (req, res) => {
 	try{
-		res.render('index');
+		res.render('users/index');
 		
 	}catch(err){
 		res.status(302).json({
