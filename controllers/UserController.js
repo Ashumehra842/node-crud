@@ -1,5 +1,6 @@
 const userModel = require('../models/User');
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 //   below code to  show the new user form
 exports.login =  async (req, res) => {
 	try{
@@ -24,7 +25,7 @@ exports.createUser =  async (req,res) =>{
 			user.email = req.body.email;
 			user.password = req.body.password;
 			const data = await user.save();
-			res.redirect('/user/');
+			res.render('users/login');
 		}catch(err){ 
 			res.send(err.message); 
 		}
@@ -34,6 +35,7 @@ exports.createUser =  async (req,res) =>{
 exports.getUsers = async (req, res) => {
 	
 	try{
+		
 		const data = await userModel.find();
 		res.render('users/list', {data});
 	}catch(err){
@@ -111,10 +113,51 @@ exports.updateData = async (req, res) => {
 		res.status(302).json({
 				status:'error',
 				message:err.message,
-				report:err
+				
 				
 			});
 	}
 	
+};
+
+exports.loginUser = async(req, res) =>{
+	try{
+		res.render('users/login');
+	}catch(err){
+		res.status(401).json({
+			status:'error',
+			message:err.message
+		});
+	}
+};
+
+exports.authentication = async (req, res)=>{
+	const {email,password} = req.body;
+	try{
+		const user = await  userModel.findOne({email});
+		if(!user){
+			return res.status(401).json({
+				status:'error',
+				message:'invalid user email address.'
+			});
+		}
+		const ismatch = await user.comparePassword(password);
+		if(!ismatch){
+			return res.status(401).json({
+				status:'error',
+				message:'Invalid email password.'
+			});
+		}
+		const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+		//res.json({ token });
+		res.redirect('/user');
+		
+	}catch(err){
+		return res.status(401).json({
+			status:'error',
+			message:err.message
+			
+		});
+	}
 };
 
