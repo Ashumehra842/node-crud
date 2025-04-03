@@ -22,10 +22,11 @@ exports.createUser =  async (req,res) =>{
 			user.name = req.body.name;
 			user.fname = req.body.fname;
 			user.email = req.body.email;
+			user.password = req.body.password;
 			const data = await user.save();
 			res.redirect('/user/');
 		}catch(err){ 
-			res.send("Error while saving data"); 
+			res.send(err.message); 
 		}
 	 
 };
@@ -38,9 +39,7 @@ exports.getUsers = async (req, res) => {
 	}catch(err){
 		res.status(302).json({
 				status:'error',
-				message:'something went wrong..',
-				report:err
-				
+				message:err.message,
 			});
 	}
 	
@@ -55,7 +54,7 @@ exports.getUserData = async (req, res) => {
 	}catch(err){
 		res.status(302).json({
 				status:'error',
-				message:'something went wrong..',
+				message:err.message,
 				
 			});
 	}
@@ -70,7 +69,7 @@ exports.deleteUser = async  (req, res)=> {
 	}catch(err){
 		res.status(302).json({
 				status:'error',
-				message:'something went wrong..',
+				message:err.message,
 				report:err
 				
 			});
@@ -88,7 +87,7 @@ exports.updateUser = async (req, res) => {
 	}catch(err){
 		res.status(302).json({
 				status:'error',
-				message:'something went wrong..',
+				message:err.message,
 				report:err
 				
 			});
@@ -111,7 +110,7 @@ exports.updateData = async (req, res) => {
 	}catch(err){
 		res.status(302).json({
 				status:'error',
-				message:'something went wrong..',
+				message:err.message,
 				report:err
 				
 			});
