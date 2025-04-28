@@ -2,7 +2,7 @@ const userModel = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 //   below code to  show the new user form
-exports.login =  async (req, res) => {
+exports.register =  async (req, res) => {
 	try{
 		res.render('users/');
 		
@@ -25,7 +25,7 @@ exports.createUser =  async (req,res) =>{
 			user.email = req.body.email;
 			user.password = req.body.password;
 			const data = await user.save();
-			res.render('users/login');
+			return res.redirect('/user/auth');
 		}catch(err){ 
 			res.send(err.message); 
 		}
@@ -35,9 +35,10 @@ exports.createUser =  async (req,res) =>{
 exports.getUsers = async (req, res) => {
 	
 	try{
+		const {name,lname} = req.session;
 		
 		const data = await userModel.find();
-		res.render('users/list', {data});
+		res.render('users/list', {data,name,lname});
 	}catch(err){
 		res.status(302).json({
 				status:'error',
@@ -131,10 +132,12 @@ exports.loginUser = async(req, res) =>{
 	}
 };
 
-exports.authentication = async (req, res)=>{
+exports.login = async (req, res)=>{
 	const {email,password} = req.body;
 	try{
+		
 		const user = await  userModel.findOne({email});
+		
 		if(!user){
 			return res.status(401).json({
 				status:'error',
@@ -148,8 +151,12 @@ exports.authentication = async (req, res)=>{
 				message:'Invalid email password.'
 			});
 		}
-		const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+		//const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 		//res.json({ token });
+		req.session.userId = user._id;
+		req.session.email = user.email;
+		req.session.name = user.name;
+		req.session.lname = user.fname;
 		res.redirect('/user');
 		
 	}catch(err){
@@ -159,5 +166,16 @@ exports.authentication = async (req, res)=>{
 			
 		});
 	}
+};
+
+
+exports.logoutUser = async (req, res) => {
+	req.session.destroy((err) => {
+		if (err) {
+		  return res.status(500).json({ message: 'Error while logging out' });
+		}
+		res.clearCookie('connect.sid'); // Clear the session cookie
+	return res.redirect('/user/auth');
+  });
 };
 

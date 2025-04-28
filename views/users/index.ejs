@@ -6,7 +6,10 @@
 
 <body>
 
-<table>
+<table border="1">
+<tr>
+	<th colspan="5">Register User</th>
+</tr>
 <form method="post" action="/user/submit">
 	<tr>
 		<th><label>Name</label></th>
@@ -26,8 +29,8 @@
 	</tr>
 	
 	<tr>
-		
 		<td><input type="submit" name="submit" class="name" value="Submit" /></td>
+		<td><a href="/user/auth/">Already have account</a></td>
 	</tr>
 </form>
 </table>

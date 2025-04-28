@@ -7,7 +7,13 @@
 <body>
 
 <table border="1" padding="1">
-
+	<tr>
+		<th colspan="5"><label>User List</label></th>
+	</tr>
+	<tr>
+		<th colspan="5"><label>Login As: <%= name.toUpperCase() %>  <%= lname.toUpperCase() %></label></th>
+		
+	</tr>
 	<tr>
 		<th><label>S.No</label></th>
 		<th><label>Name</label></th>
@@ -28,7 +34,10 @@
 	</tr>
 	<% })	 %>
 <tr>
-<th><a href="/user/login/"><button>Create User</button></a></th>
+<th><a href="/user/register/"><button>Create User</button></a></th>
+</tr>
+<tr>
+<th colspan="5"><a href="/user/logout/"><button>Logout</button></a></th>
 </tr>
 </table>
 </body>
