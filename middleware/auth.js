@@ -1,6 +1,7 @@
+
 const protect = (req, res, next) => {
   if (!req.session.userId) {
-    return res.render('users/login');
+    return res.redirect('user/auth');
   }
   next();
 };

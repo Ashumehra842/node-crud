@@ -34,6 +34,12 @@ mongoose.connect(process.env.URL).then((err) => {
 });
 
 app.use('/user/', route);
+app.all('*',(req, res)=>{
+	res.status(404).json({
+		status:'error',
+		message:`Can't find the ${req.originalUrl} on this server.`
+	});
+});
 app.listen(port,() => {
 	console.log(`server created successfully port: ${port}`);
 });

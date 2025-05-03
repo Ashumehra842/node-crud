@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "debug": "ndb nodemon index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -20,5 +21,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.1",
     "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "ndb": "^1.1.5"
   }
 }
